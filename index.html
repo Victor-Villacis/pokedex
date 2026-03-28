@@ -1446,6 +1446,7 @@
             authUsername.value = '';
             authPassword.value = '';
             authView.style.display = 'block';
+            requestAnimationFrame(() => authView.classList.add('active'));
             container.style.display = 'none';
             document.querySelector('.navbar').style.display = 'none';
             userPanel.style.display = 'none';
@@ -1458,6 +1459,7 @@
                 userPanel.style.display = 'flex';
                 document.querySelector('.navbar').style.display = 'flex';
                 container.style.display = 'block';
+                authView.classList.remove('active');
                 authView.style.display = 'none';
             } else {
                 showAuthView();
