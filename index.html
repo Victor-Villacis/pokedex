@@ -570,14 +570,6 @@
 
         body {
             padding-bottom: 45px; /* keep scrolling content above footer */
-            background: rgba(255, 0, 0, 0.15);
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.9rem;
-            padding: 6px 10px;
-            border-radius: 10px;
-            text-transform: capitalize;
-            cursor: pointer;
         }
 
         .no-results {
@@ -1080,22 +1072,6 @@
                 width: 60px;
             }
 
-            .compare-input-pair {
-                flex-direction: column;
-            }
-
-            .compare-btn {
-                width: 100%;
-            }
-
-            .pokemon-comparison {
-                padding: 15px;
-            }
-
-            .stat-bar {
-                width: 60px;
-            }
-
             .favorites-grid {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
@@ -1281,6 +1257,10 @@
         const pokemon2Input = document.getElementById('pokemon2Input');
         const normalModeBtn = document.getElementById('normalModeBtn');
         const compareModeBtn = document.getElementById('compareModeBtn');
+
+        let compareMode = false;
+        let pokemon1Data = null;
+        let pokemon2Data = null;
 
         const profileView = document.getElementById('profileView');
         const displayNameInput = document.getElementById('displayNameInput');
@@ -1809,18 +1789,6 @@
             removeFromFavorites(pokemonName);
         }
 
-        async function toggleFavorite(pokemonName) {
-            if (!window.currentPokemon) return;
-
-            if (isFavorite(pokemonName)) {
-                await removeFromFavorites(pokemonName);
-            } else {
-                await addToFavorites(window.currentPokemon);
-            }
-
-            displayPokemon(window.currentPokemon);
-        }
-
         // Shake input on empty
         function shakeInput() {
             searchInput.classList.remove('shake');
@@ -2043,6 +2011,27 @@
             console.error('IndexedDB init failed', err);
             showAuthView('Data initialization failed');
         });
+
+        // Type-based background theming
+        const typeColors = {
+            fire: '#4a1a00', water: '#001a4a', grass: '#0a3a0a', electric: '#4a3a00',
+            ice: '#0a3a4a', fighting: '#3a0a0a', poison: '#2a0a3a', ground: '#3a2a0a',
+            flying: '#1a2a4a', psychic: '#3a0a2a', bug: '#1a3a0a', rock: '#2a1a3a',
+            ghost: '#1a0a3a', dragon: '#0a2a4a', dark: '#1a1a1a', steel: '#2a2a3a',
+            fairy: '#3a1a2a', normal: '#2a2a2a'
+        };
+
+        function changeBackground(type) {
+            const color = typeColors[type] || '#1a1a1a';
+            document.body.style.background = `linear-gradient(135deg, ${color} 0%, #1a1a1a 100%)`;
+        }
+
+        function resetBackground() {
+            document.body.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)';
+        }
+
+        function playCatchSound() { /* sound effects placeholder */ }
+        function playSuccessSound() { /* sound effects placeholder */ }
 
         // Compare mode functions
         function switchMode(mode) {
